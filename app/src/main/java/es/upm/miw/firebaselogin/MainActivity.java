@@ -207,24 +207,24 @@ public class MainActivity extends Activity implements View.OnClickListener {
         String textoParaguas;
 
         if (mediaTemperatura < 18.0) {
-            textoAbrigo = "Abrigate bien que hace frio!";
+            textoAbrigo = "❄ Abrigate bien que hace frio!";
             tvAbrigo.setTextColor(getResources().getColor(R.color.red));
         } else if (mediaTemperatura >= 18.0 && mediaTemperatura <= 22.0) {
-            textoAbrigo = "Hace fresquete, deberías abrigarte.";
+            textoAbrigo = "🧣 Hace fresquete, deberías abrigarte.";
             tvAbrigo.setTextColor(getResources().getColor(R.color.yellow));
         } else {
-            textoAbrigo = "No hace falta que te abrigues.";
+            textoAbrigo = "☀ No hace falta que te abrigues.";
             tvAbrigo.setTextColor(getResources().getColor(R.color.green));
         }
 
         if (mediaNubes < 33) {
-            textoParaguas = "No hace falta que cojas el paraguas";
+            textoParaguas = "☀ No hace falta que cojas el paraguas";
             tvParaguas.setTextColor(getResources().getColor(R.color.green));
         } else if (mediaNubes >= 33 && mediaNubes <= 66) {
-            textoParaguas = "Deberías coger el paraguas por si acaso";
+            textoParaguas = "🌂 Deberías coger el paraguas por si acaso";
             tvParaguas.setTextColor(getResources().getColor(R.color.yellow));
         } else {
-            textoParaguas = "Coge el paraguas porque lo vas a necesitar.";
+            textoParaguas = "☔ Coge el paraguas porque lo vas a necesitar.";
             tvParaguas.setTextColor(getResources().getColor(R.color.red));
         }
 
