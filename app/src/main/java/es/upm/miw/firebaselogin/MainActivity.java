@@ -58,7 +58,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     CharSequence username = user.getDisplayName();
                     Toast.makeText(MainActivity.this, getString(R.string.firebase_user_fmt, username), Toast.LENGTH_LONG).show();
                     Log.i(LOG_TAG, "onAuthStateChanged() " + getString(R.string.firebase_user_fmt, username));
-                    ((TextView) findViewById(R.id.textView)).setText(getString(R.string.firebase_user_fmt, username));
+                    ((TextView) findViewById(R.id.textView)).setText("Bienvenido: "+ username);
                     getForecast();
                 } else {
                     // user is signed out
@@ -99,7 +99,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             if (resultCode == RESULT_OK) {
                 Toast.makeText(this, R.string.signed_in, Toast.LENGTH_SHORT).show();
                 Log.i(LOG_TAG, "onActivityResult " + getString(R.string.signed_in));
-
+                getForecast();
 
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, R.string.signed_cancelled, Toast.LENGTH_SHORT).show();
@@ -128,7 +128,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 .build();
 
         apiService = retrofit.create(ICountryRESTAPIService.class);
-
+        Log.i(LOG_TAG, "gettingForecast ");
         obtenerInfoPais();
     }
 
