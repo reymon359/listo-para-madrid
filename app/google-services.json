@@ -1,52 +1,45 @@
 {
   "project_info": {
-    "project_number": "541580794042",
-    "firebase_url": "https://fir-login-1b8e7.firebaseio.com",
-    "project_id": "fir-login-1b8e7",
-    "storage_bucket": "fir-login-1b8e7.appspot.com"
+    "project_number": "668692236785",
+    "firebase_url": "https://miwfemandroid.firebaseio.com",
+    "project_id": "miwfemandroid",
+    "storage_bucket": "miwfemandroid.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:541580794042:android:85cab9080d9255f6",
+        "mobilesdk_app_id": "1:668692236785:android:4fdabdb30ed5f94763dc50",
         "android_client_info": {
           "package_name": "es.upm.miw.firebaselogin"
         }
       },
       "oauth_client": [
         {
-          "client_id": "541580794042-l27vcbuqighi92868skvf2kusnp6qe7o.apps.googleusercontent.com",
+          "client_id": "668692236785-v80ccrrumpdk52g41fum24ek4165epum.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "es.upm.miw.firebaselogin",
-            "certificate_hash": "3f6f4497b2cfda665f2dae3279e4622b36c8c9a7"
+            "certificate_hash": "7ffabe78566a802e9276ad19e7e7262643a976e4"
           }
         },
         {
-          "client_id": "541580794042-pka8fr1ikcp89nm9artcr4c2c0kp02uv.apps.googleusercontent.com",
+          "client_id": "668692236785-2qc6ab6fjt4p8haigcqfgd3f1tnvjm0a.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCWfJjHJ4CBzcO11_f6a2VGGwR46r7iGzY"
+          "current_key": "AIzaSyDCHAXd1yxW9bK6wY7hr7I2hgk6YLFvA0E"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "541580794042-pka8fr1ikcp89nm9artcr4c2c0kp02uv.apps.googleusercontent.com",
+              "client_id": "668692236785-2qc6ab6fjt4p8haigcqfgd3f1tnvjm0a.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

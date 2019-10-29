@@ -54,7 +54,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                                     )).
                                     setIsSmartLockEnabled(!BuildConfig.DEBUG /* credentials */, true /* hints */).
                                     build(),
-                            RC_SIGN_IN);
+                                    RC_SIGN_IN
+                    );
                 }
             }
         };
