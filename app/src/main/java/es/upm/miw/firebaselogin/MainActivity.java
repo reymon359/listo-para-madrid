@@ -145,7 +145,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Log.i(LOG_TAG, "response => respuesta=" + response.body());
 
                 Forecast forecast = response.body();
-
+                tvRespuesta.setText("");
                 List<es.upm.miw.firebaselogin.models.List> hoursList;
                 if (null != forecast) {
                     hoursList = forecast.getList();
@@ -158,7 +158,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         double dTempRoundOff = Math.round(dTemp * 100) / 100;
                         // % humidity
                         Integer oiHumidPerc = hoursList.get(i).getMain().getHumidity();
-                        tvRespuesta.append(hoursList.get(i).getDtTxt() + "\nTemperatura:" + dTempRoundOff + "ºC\n Precipitación:" + oiHumidPerc + "% \n\n");
+                        tvRespuesta.append(hoursList.get(i).getDtTxt() + " " + dTempRoundOff + "ºC Lluvia:" + oiHumidPerc + "% \n\n");
                     }
 
                     Log.i(LOG_TAG, "obtenerInfoPais => respuesta=" + forecast);
