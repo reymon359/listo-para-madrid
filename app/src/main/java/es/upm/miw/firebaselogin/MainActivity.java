@@ -14,6 +14,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private static final String LOG_TAG = "MiW";
 
-    private TextView tvRespuesta;
+    private TextView tvRespuesta, tvTemperatura, tvAbrigo, tvNubes, tvParaguas;
 
     private ICountryRESTAPIService apiService;
 
@@ -43,7 +44,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tvRespuesta = (TextView) findViewById(R.id.tvRespuesta);
+
+        tvRespuesta = findViewById(R.id.tvRespuesta);
+        tvTemperatura = findViewById(R.id.tvTemperatura);
+        tvAbrigo = findViewById(R.id.tvAbrigo);
+        tvNubes = findViewById(R.id.tvNubes);
+        tvParaguas = findViewById(R.id.tvParaguas);
 
         findViewById(R.id.logoutButton).setOnClickListener(this);
 
@@ -58,7 +64,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     CharSequence username = user.getDisplayName();
                     Toast.makeText(MainActivity.this, getString(R.string.firebase_user_fmt, username), Toast.LENGTH_LONG).show();
                     Log.i(LOG_TAG, "onAuthStateChanged() " + getString(R.string.firebase_user_fmt, username));
-                    ((TextView) findViewById(R.id.textView)).setText("Bienvenido: "+ username);
+                    ((TextView) findViewById(R.id.textView)).setText("Bienvenido: " + username);
                     getForecast();
                 } else {
                     // user is signed out
@@ -147,19 +153,29 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Forecast forecast = response.body();
                 tvRespuesta.setText("");
                 List<es.upm.miw.firebaselogin.models.List> hoursList;
+
+                Double mediaTemperatura = 0.0;
+                Integer mediaNubes = 0;
+
+
                 if (null != forecast) {
                     hoursList = forecast.getList();
-
 
                     for (int i = 0; i < 9; i++) {
 
                         // kelvin to celsius
                         double dTemp = hoursList.get(i).getMain().getTemp() - 273.15;
                         double dTempRoundOff = Math.round(dTemp * 100) / 100;
+                        mediaTemperatura += dTempRoundOff;
                         // % humidity
                         Integer oiHumidPerc = hoursList.get(i).getMain().getHumidity();
-                        tvRespuesta.append(hoursList.get(i).getDtTxt() + " " + dTempRoundOff + "ºC Lluvia:" + oiHumidPerc + "% \n\n");
+                        mediaNubes += oiHumidPerc;
+                        tvRespuesta.append(hoursList.get(i).getDtTxt() + " " + dTempRoundOff + "ºC Nubes:" + oiHumidPerc + "% \n\n");
                     }
+
+                    mediaTemperatura = mediaTemperatura / 9;
+                    mediaNubes = mediaNubes / 9;
+                    temperaturaNubes(mediaTemperatura,mediaNubes);
 
                     Log.i(LOG_TAG, "obtenerInfoPais => respuesta=" + forecast);
                 } else {
@@ -179,6 +195,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Log.e(LOG_TAG, t.getMessage());
             }
         });
+
+    }
+
+    public void temperaturaNubes(Double mediaTemperatura, Integer mediaNubes ) {
+        DecimalFormat numberFormat = new DecimalFormat("#.00");
+        tvTemperatura.setText("Temperatura media: "+ numberFormat.format(mediaTemperatura)+"ºC");
+        tvNubes.setText("Cielo nublado: "+ mediaNubes+"%");
+
 
     }
 
