@@ -175,7 +175,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
                     mediaTemperatura = mediaTemperatura / 9;
                     mediaNubes = mediaNubes / 9;
-                    temperaturaNubes(mediaTemperatura,mediaNubes);
+                    temperaturaNubes(mediaTemperatura, mediaNubes);
 
                     Log.i(LOG_TAG, "obtenerInfoPais => respuesta=" + forecast);
                 } else {
@@ -198,12 +198,39 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     }
 
-    public void temperaturaNubes(Double mediaTemperatura, Integer mediaNubes ) {
+    public void temperaturaNubes(Double mediaTemperatura, Integer mediaNubes) {
         DecimalFormat numberFormat = new DecimalFormat("#.00");
-        tvTemperatura.setText("Temperatura media: "+ numberFormat.format(mediaTemperatura)+"ºC");
-        tvNubes.setText("Cielo nublado: "+ mediaNubes+"%");
+        tvTemperatura.setText("Temperatura media: " + numberFormat.format(mediaTemperatura) + "ºC");
+        tvNubes.setText("Cielo nublado: " + mediaNubes + "%");
 
+        String textoAbrigo;
+        String textoParaguas;
 
+        if (mediaTemperatura < 18.0) {
+            textoAbrigo = "Abrigate bien que hace frio!";
+            tvAbrigo.setTextColor(getResources().getColor(R.color.red));
+        } else if (mediaTemperatura >= 18.0 && mediaTemperatura <= 22.0) {
+            textoAbrigo = "Hace fresquete, deberías abrigarte.";
+            tvAbrigo.setTextColor(getResources().getColor(R.color.yellow));
+        } else {
+            textoAbrigo = "No hace falta que te abrigues.";
+            tvAbrigo.setTextColor(getResources().getColor(R.color.green));
+        }
+
+        if (mediaNubes < 33) {
+            textoParaguas = "No hace falta que cojas el paraguas";
+            tvParaguas.setTextColor(getResources().getColor(R.color.green));
+        } else if (mediaNubes >= 33 && mediaNubes <= 66) {
+            textoParaguas = "Deberías coger el paraguas por si acaso";
+            tvParaguas.setTextColor(getResources().getColor(R.color.yellow));
+        } else {
+            textoParaguas = "Coge el paraguas porque lo vas a necesitar.";
+            tvParaguas.setTextColor(getResources().getColor(R.color.red));
+        }
+
+        tvAbrigo.setText(textoAbrigo);
+        tvParaguas.setText(textoParaguas);
     }
 
 }
+
