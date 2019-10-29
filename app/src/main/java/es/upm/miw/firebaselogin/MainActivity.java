@@ -15,10 +15,24 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
+import java.util.List;
+
+import es.upm.miw.firebaselogin.models.Forecast;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
-    final static String LOG_TAG = "MiW";
+    private static final String API_BASE_URL = "http://api.openweathermap.org";
+
+    private static final String LOG_TAG = "MiW";
+
+    private TextView tvRespuesta;
+
+    private ICountryRESTAPIService apiService;
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
@@ -29,7 +43,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        tvRespuesta = (TextView) findViewById(R.id.tvRespuesta);
+
         findViewById(R.id.logoutButton).setOnClickListener(this);
+
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -42,6 +59,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     Toast.makeText(MainActivity.this, getString(R.string.firebase_user_fmt, username), Toast.LENGTH_LONG).show();
                     Log.i(LOG_TAG, "onAuthStateChanged() " + getString(R.string.firebase_user_fmt, username));
                     ((TextView) findViewById(R.id.textView)).setText(getString(R.string.firebase_user_fmt, username));
+                    getForecast();
                 } else {
                     // user is signed out
                     startActivityForResult(
@@ -54,7 +72,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                                     )).
                                     setIsSmartLockEnabled(!BuildConfig.DEBUG /* credentials */, true /* hints */).
                                     build(),
-                                    RC_SIGN_IN
+                            RC_SIGN_IN
                     );
                 }
             }
@@ -81,6 +99,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             if (resultCode == RESULT_OK) {
                 Toast.makeText(this, R.string.signed_in, Toast.LENGTH_SHORT).show();
                 Log.i(LOG_TAG, "onActivityResult " + getString(R.string.signed_in));
+
+
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, R.string.signed_cancelled, Toast.LENGTH_SHORT).show();
                 Log.i(LOG_TAG, "onActivityResult " + getString(R.string.signed_cancelled));
@@ -99,4 +119,67 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mFirebaseAuth.signOut();
         Log.i(LOG_TAG, getString(R.string.signed_out));
     }
+
+    public void getForecast() {
+        // btb added for retrofit
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(API_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        apiService = retrofit.create(ICountryRESTAPIService.class);
+
+        obtenerInfoPais();
+    }
+
+    public void obtenerInfoPais() {
+
+        // Realiza la llamada
+        Call<Forecast> call_async = apiService.getForecast();
+
+        // Asíncrona
+        call_async.enqueue(new Callback<Forecast>() {
+
+            @Override
+            public void onResponse(Call<Forecast> call, Response<Forecast> response) {
+                Log.i(LOG_TAG, "response => respuesta=" + response.body());
+
+                Forecast forecast = response.body();
+
+                List<es.upm.miw.firebaselogin.models.List> hoursList;
+                if (null != forecast) {
+                    hoursList = forecast.getList();
+
+
+                    for (int i = 0; i < 9; i++) {
+
+                        // kelvin to celsius
+                        double dTemp = hoursList.get(i).getMain().getTemp() - 273.15;
+                        double dTempRoundOff = Math.round(dTemp * 100) / 100;
+                        // % humidity
+                        Integer oiHumidPerc = hoursList.get(i).getMain().getHumidity();
+                        tvRespuesta.append(hoursList.get(i).getDtTxt() + "\nTemperatura:" + dTempRoundOff + "ºC\n Precipitación:" + oiHumidPerc + "% \n\n");
+                    }
+
+                    Log.i(LOG_TAG, "obtenerInfoPais => respuesta=" + forecast);
+                } else {
+                    tvRespuesta.setText("error Al recoger el tiempo");
+                    Log.i(LOG_TAG, "error Al recoger el tiempo");
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<Forecast> call, Throwable t) {
+                Toast.makeText(
+                        getApplicationContext(),
+                        "ERROR: " + t.getMessage(),
+                        Toast.LENGTH_LONG
+                ).show();
+                Log.e(LOG_TAG, t.getMessage());
+            }
+        });
+
+    }
+
 }
