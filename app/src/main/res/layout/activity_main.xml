@@ -7,155 +7,172 @@
     android:padding="16dp"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/fila"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
-            android:padding="16dp"
-            android:text="Hello World!" />
+        <LinearLayout
+            android:id="@+id/hijoScroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/logoutButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:padding="10dp"
-            android:text="@string/logout_button" />
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/fila"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="15sp"
-        android:paddingBottom="0sp"
-        android:text="Clima en las próximas 24h"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        tools:ignore="MissingConstraints"></TextView>
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:padding="16dp"
+                    android:text="Hello World!" />
 
+                <Button
+                    android:id="@+id/logoutButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:padding="10dp"
+                    android:text="@string/logout_button" />
+            </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/fila2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15sp"
+                android:paddingBottom="0sp"
+                android:text="Clima en las próximas 24h"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                tools:ignore="MissingConstraints"></TextView>
 
-        android:orientation="horizontal">
+            <Button
+                android:id="@+id/buttonActualizar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Actualizar Clima" />
 
-        <TextView
-            android:id="@+id/tvTemperatura"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:padding="4dp"
-            android:text="temperatura media" />
+            <LinearLayout
+                android:id="@+id/fila2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
 
-        <TextView
-            android:id="@+id/tvAbrigo"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:padding="4dp"
-            android:text="Abrigo" />
-    </LinearLayout>
+                android:orientation="horizontal">
 
-    <LinearLayout
-        android:id="@+id/fila3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+                <TextView
+                    android:id="@+id/tvTemperatura"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:padding="4dp"
+                    android:text="temperatura media" />
 
-        android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tvAbrigo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:padding="4dp"
+                    android:text="Abrigo" />
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvNubes"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:padding="4dp"
-            android:text="nubes media" />
+            <LinearLayout
+                android:id="@+id/fila3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
 
-        <TextView
-            android:id="@+id/tvParaguas"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:padding="4dp"
-            android:text="paraguas" />
-    </LinearLayout>
+                android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/cubeButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="Activar Luz según temperatura" />
+                <TextView
+                    android:id="@+id/tvNubes"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:padding="4dp"
+                    android:text="nubes media" />
 
-    <LinearLayout
-        android:id="@+id/fila4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20sp"
-        android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tvParaguas"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:padding="4dp"
+                    android:text="paraguas" />
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/titleBaseDatos"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:padding="4dp"
-            android:text="Datos Base Datos"
-            android:textSize="20sp" />
+            <Button
+                android:id="@+id/cubeButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Activar Luz según temperatura" />
 
+            <LinearLayout
+                android:id="@+id/fila4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20sp"
+                android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/buttonBaseDatos"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:padding="10dp"
-            android:text="Actualizar BBDD" />
-    </LinearLayout>
-
-    <!--    <TextView-->
-    <!--     -->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:padding="10sp"-->
-    <!--        android:text="Datos Base Datos"-->
-    <!--        android:textAlignment="center"-->
-    <!--        android:textSize="20sp"-->
-    <!--        tools:ignore="MissingConstraints"></TextView>-->
-
-    <TextView
-        android:id="@+id/tvBaseDatos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10sp"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/tvProximasHoras"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10sp"
-        android:text="Proximas Horas"
-        android:textAlignment="center"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/tvRespuesta"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10sp"
-        android:textAlignment="textStart"
-        android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/titleBaseDatos"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:textAlignment="center"
+                    android:padding="4dp"
+                    android:text="Datos Base Datos"
+                    android:textSize="20sp" />
 
 
+                <!--        <Button-->
+                <!--            android:id="@+id/buttonBaseDatos"-->
+                <!--            android:layout_width="0dp"-->
+                <!--            android:layout_height="match_parent"-->
+                <!--            android:layout_weight="2"-->
+                <!--            android:padding="10dp"-->
+                <!--            android:text="Actualizar BBDD" />-->
+            </LinearLayout>
+
+            <!--    <TextView-->
+            <!--     -->
+            <!--        android:layout_width="match_parent"-->
+            <!--        android:layout_height="wrap_content"-->
+            <!--        android:padding="10sp"-->
+            <!--        android:text="Datos Base Datos"-->
+            <!--        android:textAlignment="center"-->
+            <!--        android:textSize="20sp"-->
+            <!--        tools:ignore="MissingConstraints"></TextView>-->
+
+            <TextView
+                android:id="@+id/tvBaseDatos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10sp"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvProximasHoras"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10sp"
+                android:text="Proximas Horas"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvRespuesta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10sp"
+                android:textAlignment="textStart"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

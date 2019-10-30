@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,15 @@ import android.widget.Toast;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
@@ -45,12 +55,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
-    private Button cubeButton, buttonBaseDAtos;
+    private Button cubeButton, buttonActualizar;
 
     private static final int RC_SIGN_IN = 2018;
 
     private Double mediaTemperatura = 0.0;
     private Integer mediaNubes = 0;
+
+    //Database
+    // btb Firebase database variables
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference tiemposDatabaseReference;
+    private ChildEventListener mChildEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +80,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         tvParaguas = findViewById(R.id.tvParaguas);
         tvBaseDatos = findViewById(R.id.tvBaseDatos);
         cubeButton = findViewById(R.id.cubeButton);
-        buttonBaseDAtos = findViewById(R.id.buttonBaseDatos);
+        buttonActualizar = findViewById(R.id.buttonActualizar);
+//        buttonBaseDAtos = findViewById(R.id.buttonBaseDatos);
 
         // Botones
         findViewById(R.id.logoutButton).setOnClickListener(this);
@@ -73,11 +90,47 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 setCubeLight();
             }
         });
-        buttonBaseDAtos.setOnClickListener(new View.OnClickListener() {
+        buttonActualizar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-               guardarDatosDatabase();
+                getForecast();
             }
         });
+
+        // btb Get instance of Firebase database
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        tiemposDatabaseReference = mFirebaseDatabase.getReference().child("tiempos");
+
+        // btb Listener will be called when changes were performed in DB
+        mChildEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                // Deserialize data from DB into our FriendlyMessage object
+//                FriendlyMessage friendlyMessage = dataSnapshot.getValue(FriendlyMessage.class);
+//                mMessageAdapter.add(friendlyMessage);
+                tvBaseDatos.setText("");
+                tvBaseDatos.setText(dataSnapshot.getValue(Forecast.class).getList().get(0).getDtTxt());
+
+           }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        tiemposDatabaseReference.addChildEventListener(mChildEventListener);
+
 
         // Auth
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -110,14 +163,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         };
 
-
     }
 
-    public void guardarDatosDatabase(){
-
+    public void guardarDatosDatabase(Forecast forecast) {
+        tiemposDatabaseReference.push().setValue(forecast);
     }
-
-
     public void setCubeLight() {
         // First encender cubo
         encenderCubo();
@@ -130,19 +180,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
 
     }
-
     public void sendColor(FeedbackColor color) {
-        // Launch color in the cube
         FCColor fcc = new FCColor(sIp, "" + color.getR(), ""
                 + color.getG(), "" + color.getB());
         new FeedbackCubeManager().execute(fcc);
     }
-
     public void encenderCubo() {
         FCOn f = new FCOn(sIp);
         new FeedbackCubeManager().execute(f);
     }
-
     public void apagarCubo() {
         FCOff f = new FCOff(sIp);
         new FeedbackCubeManager().execute(f);
@@ -198,16 +244,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
         apiService = retrofit.create(ICountryRESTAPIService.class);
         Log.i(LOG_TAG, "gettingForecast ");
         obtenerInfoPais();
+        Toast.makeText(this, "Tiempo recogido y actualizado en la base de datos", Toast.LENGTH_LONG).show();
     }
 
     public void obtenerInfoPais() {
-
-        // Realiza la llamada
         Call<Forecast> call_async = apiService.getForecast();
-
-        // Asíncrona
         call_async.enqueue(new Callback<Forecast>() {
-
             @Override
             public void onResponse(Call<Forecast> call, Response<Forecast> response) {
                 Log.i(LOG_TAG, "response => respuesta=" + response.body());
@@ -215,13 +257,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Forecast forecast = response.body();
                 tvRespuesta.setText("");
                 List<es.upm.miw.firebaselogin.models.List> hoursList;
-
-
                 if (null != forecast) {
                     hoursList = forecast.getList();
-
+                    guardarDatosDatabase(forecast);// guardando en base de datos
                     for (int i = 0; i < 9; i++) {
-
                         // kelvin to celsius
                         double dTemp = hoursList.get(i).getMain().getTemp() - 273.15;
                         double dTempRoundOff = Math.round(dTemp * 100) / 100;
@@ -231,7 +270,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         mediaNubes += oiHumidPerc;
                         tvRespuesta.append(hoursList.get(i).getDtTxt() + " " + dTempRoundOff + "ºC Nubes:" + oiHumidPerc + "% \n\n");
                     }
-
                     mediaTemperatura = mediaTemperatura / 9;
                     mediaNubes = mediaNubes / 9;
                     temperaturaNubes(mediaTemperatura, mediaNubes);
@@ -242,8 +280,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     Log.i(LOG_TAG, "error Al recoger el tiempo");
                 }
             }
-
-
             @Override
             public void onFailure(Call<Forecast> call, Throwable t) {
                 Toast.makeText(
@@ -254,7 +290,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Log.e(LOG_TAG, t.getMessage());
             }
         });
-
     }
 
     public void temperaturaNubes(Double mediaTemperatura, Integer mediaNubes) {
