@@ -39,13 +39,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private static final String LOG_TAG = "MiW";
 
-    private TextView tvRespuesta, tvTemperatura, tvAbrigo, tvNubes, tvParaguas;
+    private TextView tvRespuesta, tvTemperatura, tvAbrigo, tvNubes, tvParaguas, tvBaseDatos;
 
     private ICountryRESTAPIService apiService;
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
-    private Button cubeButton;
+    private Button cubeButton, buttonBaseDAtos;
 
     private static final int RC_SIGN_IN = 2018;
 
@@ -56,21 +56,30 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        // Elementos
         tvRespuesta = findViewById(R.id.tvRespuesta);
         tvTemperatura = findViewById(R.id.tvTemperatura);
         tvAbrigo = findViewById(R.id.tvAbrigo);
         tvNubes = findViewById(R.id.tvNubes);
         tvParaguas = findViewById(R.id.tvParaguas);
+        tvBaseDatos = findViewById(R.id.tvBaseDatos);
         cubeButton = findViewById(R.id.cubeButton);
+        buttonBaseDAtos = findViewById(R.id.buttonBaseDatos);
 
+        // Botones
         findViewById(R.id.logoutButton).setOnClickListener(this);
         cubeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 setCubeLight();
             }
         });
+        buttonBaseDAtos.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+               guardarDatosDatabase();
+            }
+        });
 
+        // Auth
         mFirebaseAuth = FirebaseAuth.getInstance();
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -100,6 +109,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 }
             }
         };
+
+
+    }
+
+    public void guardarDatosDatabase(){
+
     }
 
 
