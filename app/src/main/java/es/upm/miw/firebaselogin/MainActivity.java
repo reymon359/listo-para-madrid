@@ -49,7 +49,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private static final String LOG_TAG = "MiW";
 
-    private TextView tvRespuesta, tvTemperatura, tvAbrigo, tvNubes, tvParaguas, tvBaseDatos;
+    private TextView tvRespuesta, tvTemperatura, tvAbrigo, tvNubes, tvParaguas;
 
     private ICountryRESTAPIService apiService;
 
@@ -78,10 +78,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         tvAbrigo = findViewById(R.id.tvAbrigo);
         tvNubes = findViewById(R.id.tvNubes);
         tvParaguas = findViewById(R.id.tvParaguas);
-        tvBaseDatos = findViewById(R.id.tvBaseDatos);
         cubeButton = findViewById(R.id.cubeButton);
         buttonActualizar = findViewById(R.id.buttonActualizar);
-//        buttonBaseDAtos = findViewById(R.id.buttonBaseDatos);
 
         // Botones
         findViewById(R.id.logoutButton).setOnClickListener(this);
@@ -99,37 +97,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         // btb Get instance of Firebase database
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         tiemposDatabaseReference = mFirebaseDatabase.getReference().child("tiempos");
-
-        // btb Listener will be called when changes were performed in DB
-        mChildEventListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                // Deserialize data from DB into our FriendlyMessage object
-//                FriendlyMessage friendlyMessage = dataSnapshot.getValue(FriendlyMessage.class);
-//                mMessageAdapter.add(friendlyMessage);
-                tvBaseDatos.setText("");
-                tvBaseDatos.setText(dataSnapshot.getValue(Forecast.class).getList().get(0).getDtTxt());
-
-           }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        };
-        tiemposDatabaseReference.addChildEventListener(mChildEventListener);
 
 
         // Auth
@@ -244,7 +211,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         apiService = retrofit.create(ICountryRESTAPIService.class);
         Log.i(LOG_TAG, "gettingForecast ");
         obtenerInfoPais();
-        Toast.makeText(this, "Tiempo recogido y actualizado en la base de datos", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Tiempo recogido y añadido en la base de datos", Toast.LENGTH_LONG).show();
     }
 
     public void obtenerInfoPais() {
@@ -268,7 +235,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         // % humidity
                         Integer oiHumidPerc = hoursList.get(i).getMain().getHumidity();
                         mediaNubes += oiHumidPerc;
-                        tvRespuesta.append(hoursList.get(i).getDtTxt() + " " + dTempRoundOff + "ºC Nubes:" + oiHumidPerc + "% \n\n");
+                        tvRespuesta.append(hoursList.get(i).getDtTxt() + " " + dTempRoundOff + "ºC Nubes:" + oiHumidPerc + "%\n\n");
                     }
                     mediaTemperatura = mediaTemperatura / 9;
                     mediaNubes = mediaNubes / 9;

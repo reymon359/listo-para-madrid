@@ -113,50 +113,6 @@
                 android:padding="10dp"
                 android:text="Activar Luz según temperatura" />
 
-            <LinearLayout
-                android:id="@+id/fila4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20sp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/titleBaseDatos"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:textAlignment="center"
-                    android:padding="4dp"
-                    android:text="Datos Base Datos"
-                    android:textSize="20sp" />
-
-
-                <!--        <Button-->
-                <!--            android:id="@+id/buttonBaseDatos"-->
-                <!--            android:layout_width="0dp"-->
-                <!--            android:layout_height="match_parent"-->
-                <!--            android:layout_weight="2"-->
-                <!--            android:padding="10dp"-->
-                <!--            android:text="Actualizar BBDD" />-->
-            </LinearLayout>
-
-            <!--    <TextView-->
-            <!--     -->
-            <!--        android:layout_width="match_parent"-->
-            <!--        android:layout_height="wrap_content"-->
-            <!--        android:padding="10sp"-->
-            <!--        android:text="Datos Base Datos"-->
-            <!--        android:textAlignment="center"-->
-            <!--        android:textSize="20sp"-->
-            <!--        tools:ignore="MissingConstraints"></TextView>-->
-
-            <TextView
-                android:id="@+id/tvBaseDatos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10sp"
-                android:textSize="18sp" />
-
             <TextView
                 android:id="@+id/tvProximasHoras"
                 android:layout_width="match_parent"
@@ -172,7 +128,8 @@
                 android:layout_height="wrap_content"
                 android:padding="10sp"
                 android:textAlignment="textStart"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
