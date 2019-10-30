@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import es.upm.miw.firebaselogin.models.Forecast;
+import es.upm.miw.noisereporter.NoiseAlertActivity;
+import es.upm.miw.noisereporter.fcube.commands.FCColor;
+import es.upm.miw.noisereporter.fcube.commands.FCOff;
+import es.upm.miw.noisereporter.fcube.commands.FCOn;
+import es.upm.miw.noisereporter.fcube.config.FeedbackCubeConfig;
+import es.upm.miw.noisereporter.fcube.config.FeedbackCubeManager;
+import es.upm.miw.noisereporter.feeback.FeedbackColor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,7 +34,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends Activity implements View.OnClickListener {
-
+    static String sIp = "192.168.0.100";
     private static final String API_BASE_URL = "http://api.openweathermap.org";
 
     private static final String LOG_TAG = "MiW";
@@ -37,6 +45,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private Button cubeButton;
 
     private static final int RC_SIGN_IN = 2018;
 
@@ -50,9 +59,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
         tvAbrigo = findViewById(R.id.tvAbrigo);
         tvNubes = findViewById(R.id.tvNubes);
         tvParaguas = findViewById(R.id.tvParaguas);
+        cubeButton = findViewById(R.id.cubeButton);
 
         findViewById(R.id.logoutButton).setOnClickListener(this);
-
+        cubeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setCubeLight();
+            }
+        });
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -85,6 +99,29 @@ public class MainActivity extends Activity implements View.OnClickListener {
         };
     }
 
+
+    public void setCubeLight() {
+//        Intent intent = new Intent(this, NoiseAlertActivity.class);
+//        startActivity(intent);
+        sendColor(new FeedbackColor(0, 0, 255));
+    }
+
+    public void sendColor(FeedbackColor color) {
+        // Launch color in the cube
+        FCColor fcc = new FCColor(sIp, "" + color.getR(), ""
+                + color.getG(), "" + color.getB());
+        new FeedbackCubeManager().execute(fcc);
+    }
+
+    public void encenderCubo() {
+        FCOn f = new FCOn(sIp);
+        new FeedbackCubeManager().execute(f);
+    }
+
+    public void apagarCubo() {
+        FCOff f = new FCOff(sIp);
+        new FeedbackCubeManager().execute(f);
+    }
 
     @Override
     protected void onPause() {

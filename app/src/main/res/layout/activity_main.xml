@@ -49,6 +49,12 @@
         android:textAlignment="center"
         android:textSize="15sp"
         tools:ignore="MissingConstraints"></TextView>
+    <Button
+        android:id="@+id/cubeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Activar Luz" />
 
     <LinearLayout
         android:id="@+id/fila2"
