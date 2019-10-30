@@ -43,6 +43,26 @@ dependencies {
     // https://github.com/firebase/FirebaseUI-Android/tree/master/auth
     //implementation 'com.firebaseui:firebase-ui-auth:4.1.0'
     implementation 'com.firebaseui:firebase-ui-auth:4.2.1'
+
+
+    // DATABASE
+    // btb upggrade for dependencies
+    implementation 'com.android.support:design:27.0.2'
+    implementation 'com.android.support:appcompat-v7:27.0.2'
+
+    // Displaying images
+    implementation 'com.github.bumptech.glide:glide:3.6.1'
+    // btb Added to enable Realtime Database feaature from Firebase
+    implementation 'com.google.firebase:firebase-database:16.0.1'
+
+    // btb Added to enable Realtime Authentication features from Firebase
+    implementation 'com.google.firebase:firebase-auth:16.0.1'
+    implementation 'com.firebaseui:firebase-ui-auth:4.2.0'
+
+    // btb Adde to enable Firebase Storage
+    implementation "com.google.firebase:firebase-storage:16.0.1"
+
+    implementation 'com.google.firebase:firebase-core:16.0.3'
 }
 
 // Google Services
