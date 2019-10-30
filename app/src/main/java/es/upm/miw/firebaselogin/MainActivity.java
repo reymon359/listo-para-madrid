@@ -49,6 +49,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private static final int RC_SIGN_IN = 2018;
 
+    private Double mediaTemperatura = 0.0;
+    private Integer mediaNubes = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,9 +104,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 
     public void setCubeLight() {
-//        Intent intent = new Intent(this, NoiseAlertActivity.class);
-//        startActivity(intent);
-        sendColor(new FeedbackColor(0, 0, 255));
+        // First encender cubo
+        encenderCubo();
+        // Si hace frio Cubo azul
+        if (mediaTemperatura < 20) {
+            sendColor(new FeedbackColor(0, 0, 255));
+        } else {
+            // Si hace calor cubo rojo
+            sendColor(new FeedbackColor(255, 0, 0));
+        }
+
     }
 
     public void sendColor(FeedbackColor color) {
@@ -190,9 +200,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Forecast forecast = response.body();
                 tvRespuesta.setText("");
                 List<es.upm.miw.firebaselogin.models.List> hoursList;
-
-                Double mediaTemperatura = 0.0;
-                Integer mediaNubes = 0;
 
 
                 if (null != forecast) {

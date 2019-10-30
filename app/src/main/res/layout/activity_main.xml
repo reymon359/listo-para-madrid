@@ -36,25 +36,11 @@
         android:layout_height="wrap_content"
         android:padding="15sp"
         android:paddingBottom="0sp"
-        android:text="Listo para Madrid!"
+        android:text="Clima en las próximas 24h"
         android:textAlignment="center"
         android:textSize="20sp"
         tools:ignore="MissingConstraints"></TextView>
-    <TextView
-        android:id="@+id/subtitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="4sp"
-        android:text="(Clima en las próximas 24h)"
-        android:textAlignment="center"
-        android:textSize="15sp"
-        tools:ignore="MissingConstraints"></TextView>
-    <Button
-        android:id="@+id/cubeButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="Activar Luz" />
+
 
     <LinearLayout
         android:id="@+id/fila2"
@@ -103,7 +89,12 @@
             android:text="paraguas" />
     </LinearLayout>
 
-
+    <Button
+        android:id="@+id/cubeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Activar Luz según temperatura" />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
