@@ -43,6 +43,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MainActivity extends Activity implements View.OnClickListener {
     static String sIp = "192.168.0.100";
     private static final String API_BASE_URL = "http://api.openweathermap.org";
@@ -132,9 +136,25 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     }
 
+// Colores aleatorios en la lampara
+//    public void fiestaLampara() {
+//        new Timer().scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//                float r = (int) (Math.random() * ((255 - 0) + 1)) + 0;
+//                float g = (int) (Math.random() * ((255 - 0) + 1)) + 0;
+//                float b = (int) (Math.random() * ((255 - 0) + 1)) + 0;
+//                sendColor(new FeedbackColor((int) r, (int) g, (int) b));
+//            }
+//        }, 0, 100);
+//    }
+
+
+
     public void guardarDatosDatabase(Forecast forecast) {
         tiemposDatabaseReference.push().setValue(forecast);
     }
+
     public void setCubeLight() {
         // First encender cubo
         encenderCubo();
@@ -145,17 +165,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
             // Si hace calor cubo rojo
             sendColor(new FeedbackColor(255, 0, 0));
         }
-
     }
+
     public void sendColor(FeedbackColor color) {
         FCColor fcc = new FCColor(sIp, "" + color.getR(), ""
                 + color.getG(), "" + color.getB());
         new FeedbackCubeManager().execute(fcc);
     }
+
     public void encenderCubo() {
         FCOn f = new FCOn(sIp);
         new FeedbackCubeManager().execute(f);
     }
+
     public void apagarCubo() {
         FCOff f = new FCOff(sIp);
         new FeedbackCubeManager().execute(f);
@@ -247,6 +269,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     Log.i(LOG_TAG, "error Al recoger el tiempo");
                 }
             }
+
             @Override
             public void onFailure(Call<Forecast> call, Throwable t) {
                 Toast.makeText(
